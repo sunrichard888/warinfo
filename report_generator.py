@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 """
-Conflict Report Generator
-Generates monthly, quarterly, and annual reports from stored conflict data
+Conflict Report Generator with Weekly Support
+Generates weekly, monthly, quarterly, and annual reports from stored conflict data
 """
 
 import sqlite3
@@ -23,10 +23,105 @@ class ConflictReportGenerator:
         if not os.path.exists(self.reports_dir):
             os.makedirs(self.reports_dir)
         # Create subdirectories
-        for subdir in ['monthly', 'quarterly', 'annual']:
+        for subdir in ['weekly', 'monthly', 'quarterly', 'annual']:
             subdir_path = os.path.join(self.reports_dir, subdir)
             if not os.path.exists(subdir_path):
                 os.makedirs(subdir_path)
+    
+    def get_weekly_report(self, start_date=None, end_date=None):
+        """
+        Generate weekly conflict report
+        
+        Args:
+            start_date (str): Start date in YYYY-MM-DD format (optional)
+            end_date (str): End date in YYYY-MM-DD format (optional)
+            
+        Returns:
+            dict: Weekly report data
+        """
+        if start_date is None or end_date is None:
+            # Default to last 7 days
+            today = datetime.now()
+            end_date = today.strftime('%Y-%m-%d')
+            start_date = (today - timedelta(days=6)).strftime('%Y-%m-%d')
+        
+        conn = sqlite3.connect(self.db_path)
+        
+        try:
+            # Get weekly statistics
+            weekly_stats_query = f'''
+                SELECT 
+                    COUNT(*) as total_days,
+                    SUM(event_count) as total_events,
+                    SUM(total_fatalities) as total_fatalities,
+                    AVG(intensity_score) as avg_intensity_score,
+                    MAX(intensity_score) as peak_intensity_score
+                FROM countries_intensity 
+                WHERE date >= '{start_date}' AND date <= '{end_date}'
+            '''
+            weekly_stats_df = pd.read_sql_query(weekly_stats_query, conn)
+            
+            # Get top conflict countries for the week
+            top_countries_query = f'''
+                SELECT 
+                    country,
+                    SUM(event_count) as total_events,
+                    SUM(total_fatalities) as total_fatalities,
+                    AVG(intensity_score) as avg_intensity,
+                    MAX(intensity_score) as peak_intensity
+                FROM countries_intensity 
+                WHERE date >= '{start_date}' AND date <= '{end_date}'
+                GROUP BY country
+                ORDER BY avg_intensity DESC
+                LIMIT 10
+            '''
+            top_countries_df = pd.read_sql_query(top_countries_query, conn)
+            
+            # Get daily breakdown for the week
+            daily_breakdown_query = f'''
+                SELECT 
+                    date,
+                    AVG(intensity_score) as daily_avg_intensity,
+                    SUM(event_count) as daily_total_events,
+                    SUM(total_fatalities) as daily_fatalities
+                FROM countries_intensity 
+                WHERE date >= '{start_date}' AND date <= '{end_date}'
+                GROUP BY date
+                ORDER BY date
+            '''
+            daily_breakdown_df = pd.read_sql_query(daily_breakdown_query, conn)
+            
+            # Get recent conflict events from the week
+            recent_events_query = f'''
+                SELECT 
+                    date, country, description, fatalities, injuries, source_url
+                FROM conflicts_daily 
+                WHERE date >= '{start_date}' AND date <= '{end_date}'
+                ORDER BY date DESC, fatalities DESC
+                LIMIT 20
+            '''
+            recent_events_df = pd.read_sql_query(recent_events_query, conn)
+            
+            report = {
+                'report_type': 'weekly',
+                'period': f"{start_date} to {end_date}",
+                'generated_at': datetime.now().isoformat(),
+                'summary': {
+                    'total_days': int(weekly_stats_df['total_days'].iloc[0] or 0),
+                    'total_events': int(weekly_stats_df['total_events'].iloc[0] or 0),
+                    'total_fatalities': int(weekly_stats_df['total_fatalities'].iloc[0] or 0),
+                    'avg_intensity_score': float(weekly_stats_df['avg_intensity_score'].iloc[0] or 0),
+                    'peak_intensity_score': float(weekly_stats_df['peak_intensity_score'].iloc[0] or 0)
+                },
+                'top_conflict_countries': top_countries_df.to_dict('records'),
+                'daily_breakdown': daily_breakdown_df.to_dict('records'),
+                'recent_conflict_events': recent_events_df.to_dict('records')
+            }
+            
+            return report
+            
+        finally:
+            conn.close()
     
     def get_monthly_report(self, year, month):
         """
@@ -261,7 +356,7 @@ class ConflictReportGenerator:
             filename (str): Optional filename, auto-generated if not provided
         """
         if filename is None:
-            period = report['period'].replace(' ', '_').replace('-', '_')
+            period = report['period'].replace(' ', '_').replace('-', '_').replace('to', 'to')
             report_type = report['report_type']
             filename = f"{self.reports_dir}/{report_type}/{period}_conflict_report.json"
         
@@ -269,6 +364,12 @@ class ConflictReportGenerator:
             json.dump(report, f, indent=2, ensure_ascii=False)
         
         print(f"Report saved to {filename}")
+        return filename
+    
+    def generate_and_save_weekly_report(self, start_date=None, end_date=None):
+        """Generate and save weekly report"""
+        report = self.get_weekly_report(start_date, end_date)
+        filename = self.save_report_to_file(report)
         return filename
     
     def generate_and_save_monthly_report(self, year, month):
@@ -291,7 +392,7 @@ class ConflictReportGenerator:
 
 def main():
     parser = argparse.ArgumentParser(description='Generate conflict analysis reports')
-    parser.add_argument('--type', choices=['monthly', 'quarterly', 'annual'], 
+    parser.add_argument('--type', choices=['weekly', 'monthly', 'quarterly', 'annual'], 
                        required=True, help='Type of report to generate')
     parser.add_argument('--year', type=int, default=datetime.now().year,
                        help='Year for the report (default: current year)')
@@ -299,6 +400,10 @@ def main():
                        help='Month for monthly report (1-12)')
     parser.add_argument('--quarter', type=int, choices=[1, 2, 3, 4],
                        help='Quarter for quarterly report (1-4)')
+    parser.add_argument('--start-date', type=str,
+                       help='Start date for weekly report (YYYY-MM-DD)')
+    parser.add_argument('--end-date', type=str,
+                       help='End date for weekly report (YYYY-MM-DD)')
     parser.add_argument('--output', type=str,
                        help='Output file path (optional, auto-generated if not provided)')
     
@@ -307,7 +412,10 @@ def main():
     generator = ConflictReportGenerator()
     
     try:
-        if args.type == 'monthly':
+        if args.type == 'weekly':
+            filename = generator.generate_and_save_weekly_report(args.start_date, args.end_date)
+            
+        elif args.type == 'monthly':
             if args.month is None:
                 print("Error: --month is required for monthly reports")
                 sys.exit(1)
