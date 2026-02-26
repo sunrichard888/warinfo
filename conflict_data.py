@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 """
-Global Conflict Data Fetcher
-Fetches conflict data from public sources and creates heatmaps
+Global Conflict Data Fetcher with Database Storage
+Fetches conflict data from public sources and stores in database
 """
 
 import json
@@ -9,12 +9,14 @@ import requests
 from datetime import datetime, timedelta
 import pandas as pd
 from bs4 import BeautifulSoup
+from database import ConflictDatabase
 
 class ConflictDataFetcher:
     def __init__(self):
         self.conflict_data = {}
         self.recent_events = []
         self.last_updated = None
+        self.db_storage = ConflictDatabase()
         
     def fetch_acled_data(self):
         """
@@ -143,11 +145,28 @@ class ConflictDataFetcher:
         return recent_events[:20]  # Return top 20 most recent events
     
     def update_conflict_data(self):
-        """Update conflict data from sources"""
+        """Update conflict data from sources and store in database"""
         print("Fetching latest conflict data...")
         self.conflict_data, self.recent_events = self.fetch_acled_data()
         self.last_updated = datetime.now()
         print(f"Data updated at {self.last_updated}")
+        
+        # Store in database
+        print("Storing data in database...")
+        self.db_storage.store_conflicts_daily(self.recent_events)
+        
+        # Prepare intensity data for storage
+        intensity_data = {}
+        for country, data in self.conflict_data.items():
+            intensity_data[country] = {
+                'intensity': data['intensity'],
+                'events': data['events_last_7days'],
+                'fatalities': 0,  # This would be calculated from recent_events in real implementation
+                'injuries': 0
+            }
+        
+        self.db_storage.store_countries_intensity(intensity_data)
+        print("Data stored successfully!")
         
     def save_data(self, filename="conflict_data.json"):
         """Save conflict data to JSON file"""

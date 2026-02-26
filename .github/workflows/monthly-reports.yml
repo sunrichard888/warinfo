@@ -1,0 +1,33 @@
+name: Monthly Conflict Reports
+
+on:
+  schedule:
+    - cron: '0 3 1 * *'  # 每月1号UTC时间3点运行
+  workflow_dispatch:  # 允许手动触发
+
+jobs:
+  monthly-report:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      
+      - name: Set up Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.9'
+          
+      - name: Install dependencies
+        run: |
+          pip install -r requirements.txt
+          
+      - name: Generate monthly report
+        run: |
+          python report_generator.py --type=monthly --year=$(date -d "last month" +%Y) --month=$(date -d "last month" +%m)
+          
+      - name: Commit and push monthly reports
+        run: |
+          git config --global user.name "GitHub Actions"
+          git config --global user.email "actions@github.com"
+          git add reports/monthly/
+          git commit -m "Monthly report: $(date -d "last month" +%Y-%m)" || echo "No changes to commit"
+          git push
