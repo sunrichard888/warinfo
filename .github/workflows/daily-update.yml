@@ -2,8 +2,8 @@ name: Daily WarInfo Update
 
 on:
   schedule:
-    # 每天 UTC 时间 02:00 运行 (北京时间 10:00)
-    - cron: '0 2 * * *'
+    # 每小时运行一次 (UTC 时间)
+    - cron: '0 * * * *'
   workflow_dispatch:  # 允许手动触发
 
 jobs:
@@ -19,11 +19,13 @@ jobs:
     - name: Set up Python
       uses: actions/setup-python@v5
       with:
-        python-version: '3.11'
+        python-version: '3.9'
+        cache: 'pip'
     
-    - name: Install dependencies
+    - name: Install dependencies with compatible versions
       run: |
-        pip install requests beautifulsoup4 pandas lxml
+        pip install --upgrade pip
+        pip install -r requirements.txt
     
     - name: Run daily update script
       run: |
@@ -33,10 +35,10 @@ jobs:
       run: |
         git config --global user.name "github-actions[bot]"
         git config --global user.email "github-actions[bot]@users.noreply.github.com"
-        git add conflict_data.json global_conflict_heatmap.html
+        git add conflict_data.json global_conflict_heatmap.html conflict_data.db
         git status
         if ! git diff --staged --quiet; then
-          git commit -m "Daily update: $(date '+%Y-%m-%d %H:%M:%S')"
+          git commit -m "Hourly update: $(date '+%Y-%m-%d %H:%M:%S')"
           git push
           echo "Changes committed and pushed successfully!"
         else
