@@ -1,0 +1,48 @@
+name: Hourly Data Update
+
+on:
+  schedule:
+    # 每小时执行一次 (UTC 时间)
+    - cron: '0 * * * *'
+  workflow_dispatch:  # 允许手动触发
+
+jobs:
+  update-data:
+    runs-on: ubuntu-latest
+    
+    steps:
+    - name: Checkout repository
+      uses: actions/checkout@v4
+      with:
+        token: ${{ secrets.GITHUB_TOKEN }}
+    
+    - name: Set up Python
+      uses: actions/setup-python@v5
+      with:
+        python-version: '3.11'
+    
+    - name: Install dependencies
+      run: |
+        pip install --no-cache-dir folium==0.16.0 requests==2.32.5 pandas==2.0.3 numpy==1.24.3 beautifulsoup4==4.12.0 matplotlib==3.7.0
+    
+    - name: Run data update
+      run: |
+        python conflict_data.py
+    
+    - name: Generate heatmap
+      run: |
+        python create_heatmap.py
+    
+    - name: Commit and push changes
+      run: |
+        git config --global user.name "github-actions[bot]"
+        git config --global user.email "github-actions[bot]@users.noreply.github.com"
+        git add conflict_data.json global_conflict_heatmap.html conflict_data.db
+        git status
+        if ! git diff --staged --quiet; then
+          git commit -m "Hourly update: $(date '+%Y-%m-%d %H:%M:%S')"
+          git push
+          echo "Changes committed and pushed successfully!"
+        else
+          echo "No changes to commit"
+        fi
