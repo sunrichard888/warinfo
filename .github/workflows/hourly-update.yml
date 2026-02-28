@@ -1,8 +1,8 @@
-name: Daily WarInfo Update
+name: Hourly Data Update
 
 on:
   schedule:
-    # 每小时运行一次 (UTC 时间)
+    # 每小时执行一次 (UTC 时间)
     - cron: '0 * * * *'
   workflow_dispatch:  # 允许手动触发
 
@@ -19,17 +19,19 @@ jobs:
     - name: Set up Python
       uses: actions/setup-python@v5
       with:
-        python-version: '3.9'
-        cache: 'pip'
+        python-version: '3.11'
     
-    - name: Install dependencies with compatible versions
+    - name: Install dependencies
       run: |
-        pip install --upgrade pip
-        pip install -r requirements.txt
+        pip install --no-cache-dir folium==0.16.0 requests==2.31.0 pandas==1.5.3 numpy==1.24.3 beautifulsoup4==4.12.0 matplotlib==3.7.0
     
-    - name: Run daily update script
+    - name: Run data update
       run: |
-        python3 update_daily.py
+        python conflict_data.py
+    
+    - name: Generate heatmap
+      run: |
+        python create_heatmap.py
     
     - name: Commit and push changes
       run: |
