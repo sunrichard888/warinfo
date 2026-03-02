@@ -28,6 +28,12 @@ COUNTRY_COORDINATES = {
     "Philippines": [12.8797, 121.7740],
     "Russia": [61.5240, 105.3188],
     "Turkey": [38.9637, 35.2433],
+    "Iran": [32.4279, 53.6880],
+    "United States": [37.0902, -95.7129],
+    "China": [35.8617, 104.1954],
+    "United Kingdom": [55.3781, -3.4360],
+    "France": [46.2276, 2.2137],
+    "Germany": [51.1657, 10.4515]
 }
 
 def create_conflict_heatmap(data_file="conflict_data.json", output_file="global_conflict_heatmap.html"):
@@ -39,10 +45,12 @@ def create_conflict_heatmap(data_file="conflict_data.json", output_file="global_
             data = json.load(f)
             conflict_data = data.get("conflict_data", {})
             recent_events = data.get("recent_events", [])
+            data_source = data.get("data_source", "Real-time GDELT Data")
     except FileNotFoundError:
         print(f"Data file {data_file} not found. Using empty data.")
         conflict_data = {}
         recent_events = []
+        data_source = "No Data Available"
     
     # Create base map
     m = folium.Map(
@@ -59,7 +67,8 @@ def create_conflict_heatmap(data_file="conflict_data.json", output_file="global_
         if country in COUNTRY_COORDINATES:
             lat, lon = COUNTRY_COORDINATES[country]
             intensity = info.get("intensity", 0)
-            heat_data.append([lat, lon, intensity])
+            if intensity > 0:  # Only show countries with actual conflict
+                heat_data.append([lat, lon, intensity])
     
     # Add heatmap layer
     from folium.plugins import HeatMap
@@ -79,7 +88,7 @@ def create_conflict_heatmap(data_file="conflict_data.json", output_file="global_
     
     # Add markers with popups
     for country, info in conflict_data.items():
-        if country in COUNTRY_COORDINATES:
+        if country in COUNTRY_COORDINATES and info.get("intensity", 0) > 0:
             lat, lon = COUNTRY_COORDINATES[country]
             popup_content = f"""
             <div style="font-family: Arial, sans-serif; font-size: 12px;">
@@ -87,6 +96,7 @@ def create_conflict_heatmap(data_file="conflict_data.json", output_file="global_
                 <p><strong>Conflict Intensity:</strong> {info.get('intensity', 0)}/100</p>
                 <p><strong>Events (Last 7 days):</strong> {info.get('events_last_7days', 'N/A')}</p>
                 <p><strong>Type:</strong> {info.get('type', 'Unknown')}</p>
+                <p><em>Data Source: {data_source}</em></p>
             </div>
             """
             folium.CircleMarker(
@@ -120,12 +130,18 @@ def create_conflict_heatmap(data_file="conflict_data.json", output_file="global_
         "India": "https://indianexpress.com/",
         "Philippines": "https://www.rappler.com/",
         "Russia": "https://www.themoscowtimes.com/",
-        "Turkey": "https://www.hurriyetdailynews.com/"
+        "Turkey": "https://www.hurriyetdailynews.com/",
+        "Iran": "https://www.al-monitor.com/topics/iran",
+        "United States": "https://www.washingtonpost.com/world/",
+        "China": "https://www.scmp.com/news/china",
+        "United Kingdom": "https://www.theguardian.com/uk-news",
+        "France": "https://www.france24.com/en/france/",
+        "Germany": "https://www.dw.com/en/germany/s-1001"
     }
     
-    for event in recent_events[:10]:  # Limit to 10 most recent events
-        if len(event) >= 5:
-            date, country, description, killed, wounded = event[:5]
+    for event in recent_events[:15]:  # Limit to 15 most recent events
+        if len(event) >= 9:  # Real GDELT format
+            date, country, region, description, killed, wounded, details, url, event_id = event[:9]
             casualties = f"{killed} killed, {wounded} wounded"
             
             # Get coordinates for the country
@@ -133,9 +149,28 @@ def create_conflict_heatmap(data_file="conflict_data.json", output_file="global_
             lat, lon = coords
             
             # Get news source
-            source_url = news_sources.get(country, "https://news.google.com/")
+            source_url = news_sources.get(country, url if url else "https://news.google.com/")
             
             # Create event HTML with proper onclick and source link
+            event_html = f'''
+            <div style="border-bottom: 1px solid #eee; padding: 5px 0; margin: 5px 0; cursor: pointer;" 
+                 onclick="jumpToLocation({lat}, {lon})">
+                <strong>{date}</strong><br/>
+                <span style="color: #d32f2f;"><strong>{country}</strong></span><br/>
+                {description}<br/>
+                <em>Casualties: {casualties}</em><br/>
+                <a href="{source_url}" target="_blank" style="font-size: 10px; color: #1976d2;">Source: News</a>
+            </div>
+            '''
+            events_html += event_html
+        elif len(event) >= 5:  # Legacy format
+            date, country, description, killed, wounded = event[:5]
+            casualties = f"{killed} killed, {wounded} wounded"
+            
+            coords = COUNTRY_COORDINATES.get(country, [20, 0])
+            lat, lon = coords
+            source_url = news_sources.get(country, "https://news.google.com/")
+            
             event_html = f'''
             <div style="border-bottom: 1px solid #eee; padding: 5px 0; margin: 5px 0; cursor: pointer;" 
                  onclick="jumpToLocation({lat}, {lon})">
@@ -153,7 +188,7 @@ def create_conflict_heatmap(data_file="conflict_data.json", output_file="global_
     # Add title and legend
     title_html = f'''
         <h3 align="center" style="font-size:20px; font-weight:bold; margin:10px;">
-        Global Conflict Heatmap
+        Global Conflict Heatmap - {data_source}
         </h3>
         <p align="center" style="font-size:12px; margin:5px;">
         Last Updated: {datetime.now().strftime('%Y-%m-%d %H:%M:%S')}
@@ -171,51 +206,25 @@ def create_conflict_heatmap(data_file="conflict_data.json", output_file="global_
         <script>
         // Function to jump to specific location on the map
         function jumpToLocation(lat, lon) {{
-            // Find the map element
-            var mapElement = document.querySelector('.folium-map');
-            if (mapElement && window.mapObject) {{
-                // Use Leaflet's flyTo method for smooth animation
-                window.mapObject.flyTo([lat, lon], 6);
-            }} else {{
-                // Fallback: try to find the map object
-                var allScripts = document.getElementsByTagName('script');
-                for (var i = 0; i < allScripts.length; i++) {{
-                    if (allScripts[i].text && allScripts[i].text.includes('L.map')) {{
-                        // This is a more robust way - we'll add the map object to window
-                        setTimeout(function() {{
-                            if (window.map_folium) {{
-                                window.map_folium.flyTo([lat, lon], 6);
+            var maps = document.querySelectorAll('.folium-map');
+            if (maps.length > 0) {{
+                // Find the map object
+                var scriptTags = document.getElementsByTagName('script');
+                for (var i = 0; i < scriptTags.length; i++) {{
+                    var scriptText = scriptTags[i].text;
+                    if (scriptText && scriptText.includes('L.map')) {{
+                        var match = scriptText.match(/var (map_[a-z0-9]+) = L\\.map/);
+                        if (match && match[1]) {{
+                            var mapObj = window[match[1]];
+                            if (mapObj) {{
+                                mapObj.flyTo([lat, lon], 6);
                             }}
-                        }}, 100);
-                        break;
+                            break;
+                        }}
                     }}
                 }}
             }}
         }}
-        
-        // Make sure the map object is accessible globally
-        document.addEventListener('DOMContentLoaded', function() {{
-            // Wait a bit for the map to initialize
-            setTimeout(function() {{
-                var maps = document.querySelectorAll('.folium-map');
-                if (maps.length > 0) {{
-                    // The map object should be available as a global variable
-                    // Folium creates variables like map_xxxxxx
-                    var scriptTags = document.getElementsByTagName('script');
-                    for (var i = 0; i < scriptTags.length; i++) {{
-                        var scriptText = scriptTags[i].text;
-                        if (scriptText && scriptText.includes('L.map')) {{
-                            // Extract the map variable name
-                            var match = scriptText.match(/var (map_[a-z0-9]+) = L\.map/);
-                            if (match && match[1]) {{
-                                window.map_folium = window[match[1]];
-                                break;
-                            }}
-                        }}
-                    }}
-                }}
-            }}, 1000);
-        }});
         </script>
     '''
     

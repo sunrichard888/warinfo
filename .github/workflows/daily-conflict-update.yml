@@ -1,8 +1,8 @@
-name: Daily Conflict Data Update
+name: Daily Conflict Data Update (Real Data)
 
 on:
   schedule:
-    - cron: '0 * * * *'  # 每小时运行一次 (UTC 时间)
+    - cron: '0 2 * * *'  # 每天 UTC 时间 02:00 运行
   workflow_dispatch:  # 允许手动触发
 
 jobs:
@@ -18,14 +18,14 @@ jobs:
         with:
           python-version: '3.11'
           
-      - name: Install dependencies with compatible versions
+      - name: Install dependencies
         run: |
           pip install --upgrade pip
           pip install -r requirements.txt
           
-      - name: Update conflict data and store in database
+      - name: Update conflict data with REAL sources
         run: |
-          python conflict_data.py
+          python update_simple.py
           
       - name: Generate daily heatmap
         run: |
@@ -38,7 +38,7 @@ jobs:
           git add .
           git status
           if ! git diff --staged --quiet; then
-            git commit -m "Hourly update: $(date '+%Y-%m-%d %H:%M:%S')"
+            git commit -m "Daily update with real conflict data: $(date '+%Y-%m-%d %H:%M:%S')"
             git push
             echo "Changes committed and pushed successfully!"
           else

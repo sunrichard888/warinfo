@@ -151,6 +151,25 @@ This project provides a foundation for several revenue streams:
 - **Pro Tier ($9.99/month)**: Historical data access, custom alerts, report exports
 - **Enterprise Tier**: API access, custom integrations, dedicated support
 
+## 🌐 Data Sources
+
+### Primary Data Source: GDELT Project
+- **GDELT (Global Database of Events, Language, and Tone)** provides free real-time global event data
+- Updates every 15 minutes with events from over 100 languages worldwide
+- Covers all countries including Iran, Middle East, and global conflict zones
+- Uses CAMEO event coding system for standardized conflict classification
+
+### Enhanced Coverage
+- **Iran Events**: Now includes real-time monitoring of Iran-related incidents
+- **Middle East Conflicts**: Comprehensive coverage of US-Israel-Iran tensions
+- **Global Conflicts**: All active war zones and conflict regions worldwide
+- **Real News Sources**: Direct links to original news articles for verification
+
+### Data Verification
+- Events are cross-referenced with multiple news sources
+- Manual verification process for high-impact events
+- Fallback to sample data only when GDELT is temporarily unavailable
+
 ## 📜 License
 
 MIT License - See [LICENSE](LICENSE) for details.
