@@ -25,7 +25,7 @@
             <meta name="viewport" content="width=device-width,
                 initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
             <style>
-                #map_b681b974c76d892f8ea4cafe66d09329 {
+                #map_4ea81b11357d739570986a899313dd6e {
                     position: relative;
                     width: 100.0%;
                     height: 100.0%;
@@ -44,7 +44,7 @@
         Global Conflict Heatmap - Real-time Global Conflict Data (Enhanced with GDELT + Verified Sources)
         </h3>
         <p align="center" style="font-size:12px; margin:5px;">
-        Last Updated: 2026-03-02 22:35:58
+        Last Updated: 2026-03-02 23:21:59
         </p>
         <div style="position: fixed; bottom: 50px; left: 50px; width: 200px; background-color: white; 
                     border: 2px solid grey; z-index:9999; font-size:14px; padding: 10px;">
@@ -153,14 +153,14 @@
         </script>
     
     
-            <div class="folium-map" id="map_b681b974c76d892f8ea4cafe66d09329" ></div>
+            <div class="folium-map" id="map_4ea81b11357d739570986a899313dd6e" ></div>
         
 </body>
 <script>
     
     
-            var map_b681b974c76d892f8ea4cafe66d09329 = L.map(
-                "map_b681b974c76d892f8ea4cafe66d09329",
+            var map_4ea81b11357d739570986a899313dd6e = L.map(
+                "map_4ea81b11357d739570986a899313dd6e",
                 {
                     center: [20.0, 0.0],
                     crs: L.CRS.EPSG3857,
@@ -174,187 +174,187 @@
 
         
     
-            var tile_layer_a17764edcf519e2afedec02eb1436eb4 = L.tileLayer(
+            var tile_layer_f54c39a6422d149e50b7f37e80ae0f00 = L.tileLayer(
                 "https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png",
                 {"attribution": "Map tiles by CartoDB, under CC BY 3.0. Data by OpenStreetMap, under ODbL.", "detectRetina": false, "maxNativeZoom": 20, "maxZoom": 20, "minZoom": 0, "noWrap": false, "opacity": 1, "subdomains": "abcd", "tms": false}
             );
         
     
-            tile_layer_a17764edcf519e2afedec02eb1436eb4.addTo(map_b681b974c76d892f8ea4cafe66d09329);
+            tile_layer_f54c39a6422d149e50b7f37e80ae0f00.addTo(map_4ea81b11357d739570986a899313dd6e);
         
     
-            var heat_map_7ca3d32d15c079dc5945566ce72ec33c = L.heatLayer(
+            var heat_map_721210eb8a813e7d265d29a0930f7c3c = L.heatLayer(
                 [[48.3794, 31.1656, 95], [31.3547, 34.3088, 92], [32.4279, 53.688, 45], [12.8628, 30.2176, 85], [21.9162, 95.956, 80], [31.0461, 34.8516, 90], [15.5527, 48.5164, 70], [5.1521, 46.1996, 60]],
                 {"blur": 15, "gradient": {"0.0": "#00FF00", "0.3": "#FFFF00", "0.6": "#FFA500", "0.8": "#FF4500", "1.0": "#FF0000"}, "maxZoom": 18, "minOpacity": 0.5, "radius": 25}
             );
         
     
-            heat_map_7ca3d32d15c079dc5945566ce72ec33c.addTo(map_b681b974c76d892f8ea4cafe66d09329);
+            heat_map_721210eb8a813e7d265d29a0930f7c3c.addTo(map_4ea81b11357d739570986a899313dd6e);
         
     
-            var circle_marker_9d6154786490af0116e3051e5285cc57 = L.circleMarker(
+            var circle_marker_b7d8d158f803b69b3c07fbccb45c5bbf = L.circleMarker(
                 [48.3794, 31.1656],
                 {"bubblingMouseEvents": true, "color": "red", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "red", "fillOpacity": 0.7, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 5, "stroke": true, "weight": 3}
-            ).addTo(map_b681b974c76d892f8ea4cafe66d09329);
+            ).addTo(map_4ea81b11357d739570986a899313dd6e);
         
     
-        var popup_234a3c7d28da84486858289c48a34485 = L.popup({"maxWidth": 300});
+        var popup_2627cc1202a66ba863ab455443e761d8 = L.popup({"maxWidth": 300});
 
         
             
-                var html_106402044f30445e67bba5f13139b5ea = $(`<div id="html_106402044f30445e67bba5f13139b5ea" style="width: 100.0%; height: 100.0%;">             <div style="font-family: Arial, sans-serif; font-size: 12px;">                 <h4>Ukraine</h4>                 <p><strong>Conflict Intensity:</strong> 95/100</p>                 <p><strong>Events (Last 7 days):</strong> 1</p>                 <p><strong>Type:</strong> International War</p>                 <p><em>Data Source: Real-time Global Conflict Data (Enhanced with GDELT + Verified Sources)</em></p>             </div>             </div>`)[0];
-                popup_234a3c7d28da84486858289c48a34485.setContent(html_106402044f30445e67bba5f13139b5ea);
+                var html_501d0640abe5c5688c54c5f2e906f8ca = $(`<div id="html_501d0640abe5c5688c54c5f2e906f8ca" style="width: 100.0%; height: 100.0%;">             <div style="font-family: Arial, sans-serif; font-size: 12px;">                 <h4>Ukraine</h4>                 <p><strong>Conflict Intensity:</strong> 95/100</p>                 <p><strong>Events (Last 7 days):</strong> 1</p>                 <p><strong>Type:</strong> International War</p>                 <p><em>Data Source: Real-time Global Conflict Data (Enhanced with GDELT + Verified Sources)</em></p>             </div>             </div>`)[0];
+                popup_2627cc1202a66ba863ab455443e761d8.setContent(html_501d0640abe5c5688c54c5f2e906f8ca);
             
         
 
-        circle_marker_9d6154786490af0116e3051e5285cc57.bindPopup(popup_234a3c7d28da84486858289c48a34485)
+        circle_marker_b7d8d158f803b69b3c07fbccb45c5bbf.bindPopup(popup_2627cc1202a66ba863ab455443e761d8)
         ;
 
         
     
     
-            var circle_marker_33e02f91eea6c16e2e556bf7bc499258 = L.circleMarker(
+            var circle_marker_70961bba09f3d9010a1e0814007d50c4 = L.circleMarker(
                 [31.3547, 34.3088],
                 {"bubblingMouseEvents": true, "color": "red", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "red", "fillOpacity": 0.7, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 5, "stroke": true, "weight": 3}
-            ).addTo(map_b681b974c76d892f8ea4cafe66d09329);
+            ).addTo(map_4ea81b11357d739570986a899313dd6e);
         
     
-        var popup_ea90eccf013cb6783c85b5f13280a5fc = L.popup({"maxWidth": 300});
+        var popup_ec855c6e710aafbdcd4c88dcb3af9a05 = L.popup({"maxWidth": 300});
 
         
             
-                var html_5522e98085c34d958852d4f37955efc1 = $(`<div id="html_5522e98085c34d958852d4f37955efc1" style="width: 100.0%; height: 100.0%;">             <div style="font-family: Arial, sans-serif; font-size: 12px;">                 <h4>Gaza</h4>                 <p><strong>Conflict Intensity:</strong> 92/100</p>                 <p><strong>Events (Last 7 days):</strong> 1</p>                 <p><strong>Type:</strong> Regional Conflict</p>                 <p><em>Data Source: Real-time Global Conflict Data (Enhanced with GDELT + Verified Sources)</em></p>             </div>             </div>`)[0];
-                popup_ea90eccf013cb6783c85b5f13280a5fc.setContent(html_5522e98085c34d958852d4f37955efc1);
+                var html_9d97375f2366a9549e815845a408146b = $(`<div id="html_9d97375f2366a9549e815845a408146b" style="width: 100.0%; height: 100.0%;">             <div style="font-family: Arial, sans-serif; font-size: 12px;">                 <h4>Gaza</h4>                 <p><strong>Conflict Intensity:</strong> 92/100</p>                 <p><strong>Events (Last 7 days):</strong> 1</p>                 <p><strong>Type:</strong> Regional Conflict</p>                 <p><em>Data Source: Real-time Global Conflict Data (Enhanced with GDELT + Verified Sources)</em></p>             </div>             </div>`)[0];
+                popup_ec855c6e710aafbdcd4c88dcb3af9a05.setContent(html_9d97375f2366a9549e815845a408146b);
             
         
 
-        circle_marker_33e02f91eea6c16e2e556bf7bc499258.bindPopup(popup_ea90eccf013cb6783c85b5f13280a5fc)
+        circle_marker_70961bba09f3d9010a1e0814007d50c4.bindPopup(popup_ec855c6e710aafbdcd4c88dcb3af9a05)
         ;
 
         
     
     
-            var circle_marker_1015a6831680cb46f913c558fc541233 = L.circleMarker(
+            var circle_marker_d0d096dd9faf5c67489bf67d54fffb67 = L.circleMarker(
                 [32.4279, 53.688],
                 {"bubblingMouseEvents": true, "color": "red", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "red", "fillOpacity": 0.7, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 5, "stroke": true, "weight": 3}
-            ).addTo(map_b681b974c76d892f8ea4cafe66d09329);
+            ).addTo(map_4ea81b11357d739570986a899313dd6e);
         
     
-        var popup_d018b24ac226958415278d055a59fdaa = L.popup({"maxWidth": 300});
+        var popup_777f2ce89a7a6792f3b1031b514aca51 = L.popup({"maxWidth": 300});
 
         
             
-                var html_d4b5725f4f90994588a19136c43b0d91 = $(`<div id="html_d4b5725f4f90994588a19136c43b0d91" style="width: 100.0%; height: 100.0%;">             <div style="font-family: Arial, sans-serif; font-size: 12px;">                 <h4>Iran</h4>                 <p><strong>Conflict Intensity:</strong> 45/100</p>                 <p><strong>Events (Last 7 days):</strong> 1</p>                 <p><strong>Type:</strong> Diplomatic Tensions</p>                 <p><em>Data Source: Real-time Global Conflict Data (Enhanced with GDELT + Verified Sources)</em></p>             </div>             </div>`)[0];
-                popup_d018b24ac226958415278d055a59fdaa.setContent(html_d4b5725f4f90994588a19136c43b0d91);
+                var html_15fb3d610d61f238cb55af235d307d8f = $(`<div id="html_15fb3d610d61f238cb55af235d307d8f" style="width: 100.0%; height: 100.0%;">             <div style="font-family: Arial, sans-serif; font-size: 12px;">                 <h4>Iran</h4>                 <p><strong>Conflict Intensity:</strong> 45/100</p>                 <p><strong>Events (Last 7 days):</strong> 1</p>                 <p><strong>Type:</strong> Diplomatic Tensions</p>                 <p><em>Data Source: Real-time Global Conflict Data (Enhanced with GDELT + Verified Sources)</em></p>             </div>             </div>`)[0];
+                popup_777f2ce89a7a6792f3b1031b514aca51.setContent(html_15fb3d610d61f238cb55af235d307d8f);
             
         
 
-        circle_marker_1015a6831680cb46f913c558fc541233.bindPopup(popup_d018b24ac226958415278d055a59fdaa)
+        circle_marker_d0d096dd9faf5c67489bf67d54fffb67.bindPopup(popup_777f2ce89a7a6792f3b1031b514aca51)
         ;
 
         
     
     
-            var circle_marker_0a78d96dbd02725705e4fc91cb5ff675 = L.circleMarker(
+            var circle_marker_144c5c65c06793e9be582062d352642c = L.circleMarker(
                 [12.8628, 30.2176],
                 {"bubblingMouseEvents": true, "color": "red", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "red", "fillOpacity": 0.7, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 5, "stroke": true, "weight": 3}
-            ).addTo(map_b681b974c76d892f8ea4cafe66d09329);
+            ).addTo(map_4ea81b11357d739570986a899313dd6e);
         
     
-        var popup_33276dd87cfb982fd837bf93cd824135 = L.popup({"maxWidth": 300});
+        var popup_0435ab3a9c0cc07e0095e792ced4df16 = L.popup({"maxWidth": 300});
 
         
             
-                var html_657826efc4540cbcac3bc50f8227ae21 = $(`<div id="html_657826efc4540cbcac3bc50f8227ae21" style="width: 100.0%; height: 100.0%;">             <div style="font-family: Arial, sans-serif; font-size: 12px;">                 <h4>Sudan</h4>                 <p><strong>Conflict Intensity:</strong> 85/100</p>                 <p><strong>Events (Last 7 days):</strong> 1</p>                 <p><strong>Type:</strong> Civil War</p>                 <p><em>Data Source: Real-time Global Conflict Data (Enhanced with GDELT + Verified Sources)</em></p>             </div>             </div>`)[0];
-                popup_33276dd87cfb982fd837bf93cd824135.setContent(html_657826efc4540cbcac3bc50f8227ae21);
+                var html_9882641abf4bed93b5c581da47301303 = $(`<div id="html_9882641abf4bed93b5c581da47301303" style="width: 100.0%; height: 100.0%;">             <div style="font-family: Arial, sans-serif; font-size: 12px;">                 <h4>Sudan</h4>                 <p><strong>Conflict Intensity:</strong> 85/100</p>                 <p><strong>Events (Last 7 days):</strong> 1</p>                 <p><strong>Type:</strong> Civil War</p>                 <p><em>Data Source: Real-time Global Conflict Data (Enhanced with GDELT + Verified Sources)</em></p>             </div>             </div>`)[0];
+                popup_0435ab3a9c0cc07e0095e792ced4df16.setContent(html_9882641abf4bed93b5c581da47301303);
             
         
 
-        circle_marker_0a78d96dbd02725705e4fc91cb5ff675.bindPopup(popup_33276dd87cfb982fd837bf93cd824135)
+        circle_marker_144c5c65c06793e9be582062d352642c.bindPopup(popup_0435ab3a9c0cc07e0095e792ced4df16)
         ;
 
         
     
     
-            var circle_marker_f7a067563696deb4c28fc32cea1dd5ba = L.circleMarker(
+            var circle_marker_6a8c2a44bfd5df89e629ed4eb5f0e148 = L.circleMarker(
                 [21.9162, 95.956],
                 {"bubblingMouseEvents": true, "color": "red", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "red", "fillOpacity": 0.7, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 5, "stroke": true, "weight": 3}
-            ).addTo(map_b681b974c76d892f8ea4cafe66d09329);
+            ).addTo(map_4ea81b11357d739570986a899313dd6e);
         
     
-        var popup_c7a3aeeb37670a6ac75784a38e434dbe = L.popup({"maxWidth": 300});
+        var popup_788ec4773f58cb39bf096bb62e4e3250 = L.popup({"maxWidth": 300});
 
         
             
-                var html_3a8c8bd27526d32ad6c0a76ba289bfc4 = $(`<div id="html_3a8c8bd27526d32ad6c0a76ba289bfc4" style="width: 100.0%; height: 100.0%;">             <div style="font-family: Arial, sans-serif; font-size: 12px;">                 <h4>Myanmar</h4>                 <p><strong>Conflict Intensity:</strong> 80/100</p>                 <p><strong>Events (Last 7 days):</strong> 1</p>                 <p><strong>Type:</strong> Civil War</p>                 <p><em>Data Source: Real-time Global Conflict Data (Enhanced with GDELT + Verified Sources)</em></p>             </div>             </div>`)[0];
-                popup_c7a3aeeb37670a6ac75784a38e434dbe.setContent(html_3a8c8bd27526d32ad6c0a76ba289bfc4);
+                var html_e16171f072ba49e09e5f0df7034e204d = $(`<div id="html_e16171f072ba49e09e5f0df7034e204d" style="width: 100.0%; height: 100.0%;">             <div style="font-family: Arial, sans-serif; font-size: 12px;">                 <h4>Myanmar</h4>                 <p><strong>Conflict Intensity:</strong> 80/100</p>                 <p><strong>Events (Last 7 days):</strong> 1</p>                 <p><strong>Type:</strong> Civil War</p>                 <p><em>Data Source: Real-time Global Conflict Data (Enhanced with GDELT + Verified Sources)</em></p>             </div>             </div>`)[0];
+                popup_788ec4773f58cb39bf096bb62e4e3250.setContent(html_e16171f072ba49e09e5f0df7034e204d);
             
         
 
-        circle_marker_f7a067563696deb4c28fc32cea1dd5ba.bindPopup(popup_c7a3aeeb37670a6ac75784a38e434dbe)
+        circle_marker_6a8c2a44bfd5df89e629ed4eb5f0e148.bindPopup(popup_788ec4773f58cb39bf096bb62e4e3250)
         ;
 
         
     
     
-            var circle_marker_772abc8eb7ab9e9da2cfce91e79f7818 = L.circleMarker(
+            var circle_marker_073e0c4db9f490d6c46c7bea7b9d3da7 = L.circleMarker(
                 [31.0461, 34.8516],
                 {"bubblingMouseEvents": true, "color": "red", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "red", "fillOpacity": 0.7, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 5, "stroke": true, "weight": 3}
-            ).addTo(map_b681b974c76d892f8ea4cafe66d09329);
+            ).addTo(map_4ea81b11357d739570986a899313dd6e);
         
     
-        var popup_dbbf18dcf7f88daf7a896ac6998809a8 = L.popup({"maxWidth": 300});
+        var popup_f8e4f81ce2e9aa079b0b398e3ae3b0b2 = L.popup({"maxWidth": 300});
 
         
             
-                var html_2349ad0246370bdbb3448944d2e72060 = $(`<div id="html_2349ad0246370bdbb3448944d2e72060" style="width: 100.0%; height: 100.0%;">             <div style="font-family: Arial, sans-serif; font-size: 12px;">                 <h4>Israel</h4>                 <p><strong>Conflict Intensity:</strong> 90/100</p>                 <p><strong>Events (Last 7 days):</strong> 1</p>                 <p><strong>Type:</strong> Regional Conflict</p>                 <p><em>Data Source: Real-time Global Conflict Data (Enhanced with GDELT + Verified Sources)</em></p>             </div>             </div>`)[0];
-                popup_dbbf18dcf7f88daf7a896ac6998809a8.setContent(html_2349ad0246370bdbb3448944d2e72060);
+                var html_f26388a4c2743f43e7f443793b361b37 = $(`<div id="html_f26388a4c2743f43e7f443793b361b37" style="width: 100.0%; height: 100.0%;">             <div style="font-family: Arial, sans-serif; font-size: 12px;">                 <h4>Israel</h4>                 <p><strong>Conflict Intensity:</strong> 90/100</p>                 <p><strong>Events (Last 7 days):</strong> 1</p>                 <p><strong>Type:</strong> Regional Conflict</p>                 <p><em>Data Source: Real-time Global Conflict Data (Enhanced with GDELT + Verified Sources)</em></p>             </div>             </div>`)[0];
+                popup_f8e4f81ce2e9aa079b0b398e3ae3b0b2.setContent(html_f26388a4c2743f43e7f443793b361b37);
             
         
 
-        circle_marker_772abc8eb7ab9e9da2cfce91e79f7818.bindPopup(popup_dbbf18dcf7f88daf7a896ac6998809a8)
+        circle_marker_073e0c4db9f490d6c46c7bea7b9d3da7.bindPopup(popup_f8e4f81ce2e9aa079b0b398e3ae3b0b2)
         ;
 
         
     
     
-            var circle_marker_93b8f51f6424f07a42912e682ef11f42 = L.circleMarker(
+            var circle_marker_2741e5132cf1be1c1e0adb6c45a16c03 = L.circleMarker(
                 [15.5527, 48.5164],
                 {"bubblingMouseEvents": true, "color": "red", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "red", "fillOpacity": 0.7, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 5, "stroke": true, "weight": 3}
-            ).addTo(map_b681b974c76d892f8ea4cafe66d09329);
+            ).addTo(map_4ea81b11357d739570986a899313dd6e);
         
     
-        var popup_2a1b345b9aa6fd8592f1273e1f0ee3ac = L.popup({"maxWidth": 300});
+        var popup_c564e4955a06e27e4f30a7c2a536cc09 = L.popup({"maxWidth": 300});
 
         
             
-                var html_9761444d34c3f46cae37058c2065d233 = $(`<div id="html_9761444d34c3f46cae37058c2065d233" style="width: 100.0%; height: 100.0%;">             <div style="font-family: Arial, sans-serif; font-size: 12px;">                 <h4>Yemen</h4>                 <p><strong>Conflict Intensity:</strong> 70/100</p>                 <p><strong>Events (Last 7 days):</strong> 1</p>                 <p><strong>Type:</strong> Civil War</p>                 <p><em>Data Source: Real-time Global Conflict Data (Enhanced with GDELT + Verified Sources)</em></p>             </div>             </div>`)[0];
-                popup_2a1b345b9aa6fd8592f1273e1f0ee3ac.setContent(html_9761444d34c3f46cae37058c2065d233);
+                var html_b73e4a6ba2e98717d0a7ce9ad145736f = $(`<div id="html_b73e4a6ba2e98717d0a7ce9ad145736f" style="width: 100.0%; height: 100.0%;">             <div style="font-family: Arial, sans-serif; font-size: 12px;">                 <h4>Yemen</h4>                 <p><strong>Conflict Intensity:</strong> 70/100</p>                 <p><strong>Events (Last 7 days):</strong> 1</p>                 <p><strong>Type:</strong> Civil War</p>                 <p><em>Data Source: Real-time Global Conflict Data (Enhanced with GDELT + Verified Sources)</em></p>             </div>             </div>`)[0];
+                popup_c564e4955a06e27e4f30a7c2a536cc09.setContent(html_b73e4a6ba2e98717d0a7ce9ad145736f);
             
         
 
-        circle_marker_93b8f51f6424f07a42912e682ef11f42.bindPopup(popup_2a1b345b9aa6fd8592f1273e1f0ee3ac)
+        circle_marker_2741e5132cf1be1c1e0adb6c45a16c03.bindPopup(popup_c564e4955a06e27e4f30a7c2a536cc09)
         ;
 
         
     
     
-            var circle_marker_e3a68fa4a5f9b427b19b85eaf11c6148 = L.circleMarker(
+            var circle_marker_5994ae1eaa2dcab265c2f2583dab9c74 = L.circleMarker(
                 [5.1521, 46.1996],
                 {"bubblingMouseEvents": true, "color": "red", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "red", "fillOpacity": 0.7, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 5, "stroke": true, "weight": 3}
-            ).addTo(map_b681b974c76d892f8ea4cafe66d09329);
+            ).addTo(map_4ea81b11357d739570986a899313dd6e);
         
     
-        var popup_4ebe043fa7b831ec354dfef8c3c098ed = L.popup({"maxWidth": 300});
+        var popup_65458604f42466d978a707260a4e2fa5 = L.popup({"maxWidth": 300});
 
         
             
-                var html_2fd7c6c75e539f51ef9e413240e11506 = $(`<div id="html_2fd7c6c75e539f51ef9e413240e11506" style="width: 100.0%; height: 100.0%;">             <div style="font-family: Arial, sans-serif; font-size: 12px;">                 <h4>Somalia</h4>                 <p><strong>Conflict Intensity:</strong> 60/100</p>                 <p><strong>Events (Last 7 days):</strong> 1</p>                 <p><strong>Type:</strong> Insurgency</p>                 <p><em>Data Source: Real-time Global Conflict Data (Enhanced with GDELT + Verified Sources)</em></p>             </div>             </div>`)[0];
-                popup_4ebe043fa7b831ec354dfef8c3c098ed.setContent(html_2fd7c6c75e539f51ef9e413240e11506);
+                var html_c52f291c6b4b154d4af10d5357033993 = $(`<div id="html_c52f291c6b4b154d4af10d5357033993" style="width: 100.0%; height: 100.0%;">             <div style="font-family: Arial, sans-serif; font-size: 12px;">                 <h4>Somalia</h4>                 <p><strong>Conflict Intensity:</strong> 60/100</p>                 <p><strong>Events (Last 7 days):</strong> 1</p>                 <p><strong>Type:</strong> Insurgency</p>                 <p><em>Data Source: Real-time Global Conflict Data (Enhanced with GDELT + Verified Sources)</em></p>             </div>             </div>`)[0];
+                popup_65458604f42466d978a707260a4e2fa5.setContent(html_c52f291c6b4b154d4af10d5357033993);
             
         
 
-        circle_marker_e3a68fa4a5f9b427b19b85eaf11c6148.bindPopup(popup_4ebe043fa7b831ec354dfef8c3c098ed)
+        circle_marker_5994ae1eaa2dcab265c2f2583dab9c74.bindPopup(popup_65458604f42466d978a707260a4e2fa5)
         ;
 
         
